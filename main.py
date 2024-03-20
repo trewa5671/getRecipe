@@ -22,9 +22,9 @@ async def root():
     return r.json()
 
 @app.get("/list/")
-async def get_list(q: list | None = Query()):
+async def get_list(q: list = Query([])):  # Set default value to an empty list
     if not q:
-        return[]
+        return []
     recipe_list = []
     for id in q:
         r = requests.get(f"https://api.spoonacular.com/recipes/{id}/information", params={'apiKey': '3b8b919895eb46479932d5b1112bb274'})
@@ -33,3 +33,4 @@ async def get_list(q: list | None = Query()):
 
 if __name__ == '__main__':
     uvicorn.run(app, host="0.0.0.0", port=int(os.getenv('PORT', 80)))
+    
